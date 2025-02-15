@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -8,10 +9,30 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"pos-go-api/configs"
+	_ "pos-go-api/docs"
 	"pos-go-api/internal/entity"
 	"pos-go-api/internal/infra/database"
 	"pos-go-api/internal/infra/webserver/handlers"
 )
+
+//	@title			Go Products API Example
+//	@version		1.0
+//	@description	Product API with auth
+//	@termsOfService	http://swagger.io/terms/
+
+//	@contact.name	Pablo Henrique
+//	@contact.url	example.url
+//	@contact.email	yariongranham@gmail.com
+
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+
+//	@host		localhost:8000
+//	@BasePath	/
+
+//	@securityDefinitions.apikey	ApiKeyAuth
+//	@in							header
+//	@name						Authorization
 
 func main() {
 	config, err := configs.LoadConfig(".")
@@ -55,6 +76,7 @@ func main() {
 	f.Post("/users", userHandler.Create)
 	f.Post("/users/generate_token", userHandler.GetJWT)
 
+	f.Get("/docs/*", swagger.HandlerDefault)
 	err = f.Listen(":8000")
 	if err != nil {
 		return
