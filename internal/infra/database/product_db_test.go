@@ -24,7 +24,7 @@ func TestCreateNewProduct(t *testing.T) {
 	assert.NotEmpty(t, product.ID)
 }
 
-func testFindAllProducts(t *testing.T) {
+func TestFindAllProducts(t *testing.T) {
 	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
 	if err != nil {
 		t.Error(err)
@@ -60,7 +60,7 @@ func TestFindProductById(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	
+
 	db.AutoMigrate(&entity.Product{})
 
 	product, err := entity.NewProduct("product 1", 10.0)
